@@ -98,10 +98,12 @@ const App = () => {
             />
           )}
         />
-        <Route
-          path="/answers"
-          component={() => <UserAnswers uAnswers={userAnswers} startTriviaQuiz={startTriviaQuiz} gameScore={gameScore} TOTAL_QUESTIONS={TOTAL_QUESTIONS} />}
-        />
+        {userAnswers.length === TOTAL_QUESTIONS && (
+          <Route
+            path="/answers"
+            component={() => <UserAnswers uAnswers={userAnswers} startTriviaQuiz={startTriviaQuiz} gameScore={gameScore} TOTAL_QUESTIONS={TOTAL_QUESTIONS} />}
+          />
+        )}
         <Redirect to="/" />
       </Switch>
     </>
