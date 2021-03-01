@@ -4,8 +4,9 @@ import { css } from '@emotion/react';
 // Types
 import { QuestionsState, Difficulty } from './API';
 // Components
-import QuestionCard from './components/QuestionCard';
+import QuestionCard from './components/QuestionCard/QuestionCard';
 import ClipLoader from 'react-spinners/ClipLoader';
+import UserAnswers from './components/UserAnswers/UserAnswers';
 // Styles
 import { GlobalStyle, Wrapper } from './App.styles';
 
@@ -107,6 +108,7 @@ const App = () => {
             Next Question
           </button>
         ) : null}
+        <UserAnswers uAnswers={userAnswers} />
       </Wrapper>
     </>
   );

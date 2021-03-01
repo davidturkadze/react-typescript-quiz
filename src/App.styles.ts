@@ -39,6 +39,9 @@ export const Wrapper = styled.div`
     text-align: center;
     margin: 20px;
     color: #fff;
+    @media (max-width: 768px) {
+      font-size: 65px;
+    }
   }
   .start,
   .next {
