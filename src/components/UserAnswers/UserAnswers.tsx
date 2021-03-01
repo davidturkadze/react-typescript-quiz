@@ -45,7 +45,7 @@ const UserAnswers: React.FC<UserAnswersProps> = ({ uAnswers, gameScore, TOTAL_QU
               </p>
               <p className="question" dangerouslySetInnerHTML={{ __html: userAnswer.question }} />
               <p>
-                Your answer: <span style={{ color: userAnswer.correct ? 'green' : 'red' }}>{userAnswer.answer}</span>
+                Your answer: <span style={{ color: userAnswer.correct ? 'green' : 'red' }} dangerouslySetInnerHTML={{ __html: userAnswer.answer }} />
               </p>
               <p>
                 Correct answer: <span dangerouslySetInnerHTML={{ __html: userAnswer.correctAnswer }} />
@@ -53,26 +53,6 @@ const UserAnswers: React.FC<UserAnswersProps> = ({ uAnswers, gameScore, TOTAL_QU
             </div>
           </div>
         ))}
-      {/* <div>
-        <p>Question {1}</p>
-        <p>What geometric shape is generally used for stop signs?</p>
-        <p>
-          Your answer: <span>Hexagon</span>
-        </p>
-        <p>
-          Correct answer: <span>Octagon</span>
-        </p>
-      </div>
-      <div>
-        <p>Question {2}</p>
-        <p>Which of these is NOT a main playable character in &quot;Grand Theft Auto V&quot;?</p>
-        <p>
-          Your answer: <span>Michael</span>
-        </p>
-        <p>
-          Correct answer: <span>Lamar</span>
-        </p>
-      </div> */}
       <button className="start" onClick={startNrwGame}>
         Start new game
       </button>
