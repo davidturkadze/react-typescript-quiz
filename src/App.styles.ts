@@ -58,4 +58,15 @@ export const Wrapper = styled.div`
   .start {
     max-width: 250px;
   }
+  .result {
+    cursor: pointer;
+    background: linear-gradient(to right, #283048 0%, #859398 51%, #283048 100%);
+    border: 1px solid black;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.25);
+    border-radius: 7px;
+    height: 40px;
+    margin: 20px 0;
+    padding: 0 40px;
+    font-size: 20px;
+  }
 `;

@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
+import { Route, Switch, Redirect, useHistory } from 'react-router-dom';
 import { fetchQuizData } from './API';
-import { css } from '@emotion/react';
 // Types
 import { QuestionsState, Difficulty } from './API';
+// Containers
+import Quiz from './containers/Quiz';
 // Components
-import QuestionCard from './components/QuestionCard/QuestionCard';
-import ClipLoader from 'react-spinners/ClipLoader';
 import UserAnswers from './components/UserAnswers/UserAnswers';
 // Styles
-import { GlobalStyle, Wrapper } from './App.styles';
+import { GlobalStyle } from './App.styles';
 
 export type AnswerObject = {
   question: string;
@@ -17,14 +17,11 @@ export type AnswerObject = {
   correctAnswer: string;
 };
 
-const override = css`
-  display: block;
-  margin: 0 auto;
-`;
-
 const TOTAL_QUESTIONS: number = 10;
 
 const App = () => {
+  let history = useHistory();
+
   const [loading, setLoading] = useState(false);
   const [gameOver, setGameOver] = useState(true);
   const [gameScore, setGameScore] = useState(0);
@@ -74,42 +71,39 @@ const App = () => {
       setLoading(false);
     }
   };
+  const showResults = () => {
+    history.push('/answers');
+  };
 
   return (
     <>
       <GlobalStyle />
-      <Wrapper>
-        <h1>TRIVIA QUIZ</h1>
-        {gameOver || userAnswers.length === TOTAL_QUESTIONS ? (
-          <button className="start" onClick={startTriviaQuiz}>
-            {userAnswers.length === TOTAL_QUESTIONS ? 'Start new game' : 'Start'}
-          </button>
-        ) : null}
-
-        {!gameOver && (
-          <p className="score">
-            Score: <span style={{ color: '#00ff00' }}>{gameScore}</span>
-          </p>
-        )}
-        {!loading && !gameOver && (
-          <QuestionCard
-            questionNumber={questionNr + 1}
-            totalQuestions={TOTAL_QUESTIONS}
-            question={questions[questionNr].question}
-            answers={questions[questionNr].answers}
-            userAnswer={userAnswers ? userAnswers[questionNr] : undefined}
-            callback={checkAnswer}
-          />
-        )}
-
-        <ClipLoader color={'#4A90E2'} loading={loading} size={200} css={override} />
-        {!gameOver && !loading && userAnswers.length === questionNr + 1 && questionNr !== TOTAL_QUESTIONS - 1 ? (
-          <button className="next" onClick={nextQuestion}>
-            Next Question
-          </button>
-        ) : null}
-        <UserAnswers uAnswers={userAnswers} />
-      </Wrapper>
+      <Switch>
+        <Route
+          path="/"
+          exact
+          component={() => (
+            <Quiz
+              TOTAL_QUESTIONS={TOTAL_QUESTIONS}
+              loading={loading}
+              gameOver={gameOver}
+              gameScore={gameScore}
+              questionNr={questionNr}
+              questions={questions}
+              userAnswers={userAnswers}
+              nextQuestion={nextQuestion}
+              startTriviaQuiz={startTriviaQuiz}
+              checkAnswer={checkAnswer}
+              showResults={showResults}
+            />
+          )}
+        />
+        <Route
+          path="/answers"
+          component={() => <UserAnswers uAnswers={userAnswers} startTriviaQuiz={startTriviaQuiz} gameScore={gameScore} TOTAL_QUESTIONS={TOTAL_QUESTIONS} />}
+        />
+        <Redirect to="/" />
+      </Switch>
     </>
   );
 };
