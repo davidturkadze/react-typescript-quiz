@@ -8,6 +8,7 @@ import { css } from '@emotion/react';
 import { Wrapper } from '../App.styles';
 // Components
 import QuestionCard from '../components/QuestionCard/QuestionCard';
+import SelectBox from '../components/UI/Select';
 
 const override = css`
   display: block;
@@ -43,6 +44,7 @@ const Quiz: React.FC<QuizProps> = ({
 }) => (
   <Wrapper>
     <h1>TRIVIA QUIZ</h1>
+    <SelectBox />
     {gameOver || userAnswers.length === TOTAL_QUESTIONS ? (
       <button className="start" onClick={startTriviaQuiz}>
         {userAnswers.length === TOTAL_QUESTIONS ? 'Start new game' : 'Start'}
