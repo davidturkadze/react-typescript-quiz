@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Route, Switch, Redirect, useHistory } from 'react-router-dom';
+
 import { fetchQuizData } from './API';
 // Types
-import { QuestionsState, Difficulty } from './API';
+// import { QuestionsState, Difficulty } from './API';
+import { QuestionsState } from './API';
 // Containers
 import Quiz from './containers/Quiz';
 // Components
@@ -22,6 +24,7 @@ const TOTAL_QUESTIONS: number = 10;
 const App = () => {
   let history = useHistory();
 
+  const [difficulty, setDifficulty] = useState<string>('easy');
   const [loading, setLoading] = useState(false);
   const [gameOver, setGameOver] = useState(true);
   const [gameScore, setGameScore] = useState(0);
@@ -29,10 +32,15 @@ const App = () => {
   const [questions, setQuestions] = useState<QuestionsState[]>([]);
   const [userAnswers, setUserAnswers] = useState<AnswerObject[]>([]);
 
+  const quizDifficulty = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedDifficulty = e.target.value;
+    setDifficulty(selectedDifficulty);
+  };
+
   const startTriviaQuiz = async () => {
     setLoading(true);
     setGameOver(false);
-    const quizQuestions = await fetchQuizData(TOTAL_QUESTIONS, Difficulty.EASY);
+    const quizQuestions = await fetchQuizData(TOTAL_QUESTIONS, difficulty);
     setQuestions(quizQuestions);
     setGameScore(0);
     setUserAnswers([]);
@@ -86,6 +94,7 @@ const App = () => {
             <Quiz
               TOTAL_QUESTIONS={TOTAL_QUESTIONS}
               loading={loading}
+              difficulty={difficulty}
               gameOver={gameOver}
               gameScore={gameScore}
               questionNr={questionNr}
@@ -95,6 +104,7 @@ const App = () => {
               startTriviaQuiz={startTriviaQuiz}
               checkAnswer={checkAnswer}
               showResults={showResults}
+              quizDifficulty={quizDifficulty}
             />
           )}
         />

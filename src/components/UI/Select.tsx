@@ -1,18 +1,18 @@
 import React from 'react';
-// Types
 // Components
 import { Select } from './Select.styles';
 
-const difficulty: string[] = ['easy', 'medium', 'hard'];
+type SelectBoxProps = {
+  value: string;
+  quizDifficulty: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+};
 
-const SelectBox = () => {
+const SelectBox: React.FC<SelectBoxProps> = ({ value, quizDifficulty }) => {
   return (
-    <Select>
-      {difficulty.map((diff: any, index) => (
-        <option key={index} value={diff}>
-          {diff.toUpperCase()}
-        </option>
-      ))}
+    <Select onChange={(e) => quizDifficulty(e)} value={value}>
+      <option value="easy">Easy</option>
+      <option value="medium">Medium</option>
+      <option value="hard">Hard</option>
     </Select>
   );
 };

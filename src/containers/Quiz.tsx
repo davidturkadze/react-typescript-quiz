@@ -18,6 +18,7 @@ const override = css`
 type QuizProps = {
   TOTAL_QUESTIONS: number;
   loading: boolean;
+  difficulty: string;
   gameOver: boolean;
   gameScore: number;
   questionNr: number;
@@ -27,11 +28,13 @@ type QuizProps = {
   startTriviaQuiz: () => void;
   checkAnswer: (e: React.MouseEvent<HTMLButtonElement>) => void;
   showResults: () => void;
+  quizDifficulty: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 };
 
 const Quiz: React.FC<QuizProps> = ({
   TOTAL_QUESTIONS,
   loading,
+  difficulty,
   gameOver,
   gameScore,
   questionNr,
@@ -41,44 +44,52 @@ const Quiz: React.FC<QuizProps> = ({
   startTriviaQuiz,
   checkAnswer,
   showResults,
-}) => (
-  <Wrapper>
-    <h1>TRIVIA QUIZ</h1>
-    <SelectBox />
-    {gameOver || userAnswers.length === TOTAL_QUESTIONS ? (
-      <button className="start" onClick={startTriviaQuiz}>
-        {userAnswers.length === TOTAL_QUESTIONS ? 'Start new game' : 'Start'}
-      </button>
-    ) : null}
+  quizDifficulty,
+}) => {
+  let difficultySelect = null;
+  if (userAnswers.length === TOTAL_QUESTIONS || gameOver) {
+    difficultySelect = <SelectBox quizDifficulty={quizDifficulty} value={difficulty} />;
+  }
+  return (
+    <Wrapper>
+      <h1>TRIVIA QUIZ</h1>
+      {difficultySelect}
 
-    {!gameOver && (
-      <p className="score">
-        Score: <span style={{ color: '#00ff00' }}>{gameScore}</span>
-      </p>
-    )}
-    {!loading && !gameOver && (
-      <QuestionCard
-        questionNumber={questionNr + 1}
-        totalQuestions={TOTAL_QUESTIONS}
-        question={questions[questionNr].question}
-        answers={questions[questionNr].answers}
-        userAnswer={userAnswers ? userAnswers[questionNr] : undefined}
-        callback={checkAnswer}
-      />
-    )}
+      {gameOver || userAnswers.length === TOTAL_QUESTIONS ? (
+        <button className="start" onClick={startTriviaQuiz}>
+          {userAnswers.length === TOTAL_QUESTIONS ? 'Start new game' : 'Start'}
+        </button>
+      ) : null}
 
-    <ClipLoader color={'#4A90E2'} loading={loading} size={200} css={override} />
-    {!gameOver && !loading && userAnswers.length === questionNr + 1 && questionNr !== TOTAL_QUESTIONS - 1 ? (
-      <button className="next" onClick={nextQuestion}>
-        Next Question
-      </button>
-    ) : null}
-    {!loading && userAnswers.length === TOTAL_QUESTIONS ? (
-      <button className="result" onClick={showResults}>
-        Show Results
-      </button>
-    ) : null}
-  </Wrapper>
-);
+      {!gameOver && (
+        <p className="score">
+          Score: <span style={{ color: '#00ff00' }}>{gameScore}</span>
+        </p>
+      )}
+      {!loading && !gameOver && (
+        <QuestionCard
+          questionNumber={questionNr + 1}
+          totalQuestions={TOTAL_QUESTIONS}
+          question={questions[questionNr].question}
+          answers={questions[questionNr].answers}
+          userAnswer={userAnswers ? userAnswers[questionNr] : undefined}
+          callback={checkAnswer}
+        />
+      )}
+
+      <ClipLoader color={'#4A90E2'} loading={loading} size={200} css={override} />
+      {!gameOver && !loading && userAnswers.length === questionNr + 1 && questionNr !== TOTAL_QUESTIONS - 1 ? (
+        <button className="next" onClick={nextQuestion}>
+          Next Question
+        </button>
+      ) : null}
+      {!loading && userAnswers.length === TOTAL_QUESTIONS ? (
+        <button className="result" onClick={showResults}>
+          Show Results
+        </button>
+      ) : null}
+    </Wrapper>
+  );
+};
 
 export default Quiz;

@@ -17,8 +17,8 @@ type UserAnswersProps = {
 const UserAnswers: React.FC<UserAnswersProps> = ({ uAnswers, gameScore, TOTAL_QUESTIONS, startTriviaQuiz }) => {
   let history = useHistory();
 
-  const startNrwGame = () => {
-    startTriviaQuiz();
+  const startNewGame = () => {
+    //startTriviaQuiz();
     history.push('/');
   };
 
@@ -53,8 +53,8 @@ const UserAnswers: React.FC<UserAnswersProps> = ({ uAnswers, gameScore, TOTAL_QU
             </div>
           </div>
         ))}
-      <button className="start" onClick={startNrwGame}>
-        Start new game
+      <button className="start" onClick={startNewGame}>
+        Go back
       </button>
     </Wrapper>
   );
