@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Route, Switch, Redirect, useHistory } from 'react-router-dom';
 
-import { fetchQuizData } from './API';
+import { fetchQuizData, fetchQuizCategory, categoryState } from './API';
 // Types
 // import { QuestionsState, Difficulty } from './API';
 import { QuestionsState } from './API';
@@ -25,6 +25,8 @@ const App = () => {
   let history = useHistory();
 
   const [difficulty, setDifficulty] = useState<string>('easy');
+  const [category, setCategory] = useState<categoryState[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<number>(9);
   const [totalQuestions, setTotalQuestions] = useState<number>(10);
   const [loading, setLoading] = useState(false);
   const [gameOver, setGameOver] = useState(true);
@@ -32,6 +34,17 @@ const App = () => {
   const [questionNr, setQuestionNr] = useState(0);
   const [questions, setQuestions] = useState<QuestionsState[]>([]);
   const [userAnswers, setUserAnswers] = useState<AnswerObject[]>([]);
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  const fetchCategories = async () => {
+    setLoading(true);
+    const category = await fetchQuizCategory();
+    setCategory(category);
+    setLoading(false);
+  };
 
   const quizDifficulty = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedDifficulty = e.target.value;
@@ -45,10 +58,15 @@ const App = () => {
     setTotalQuestions(selectedTotalQuestions);
   };
 
+  const quizCategory = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedCat = Number(e.target.value);
+    setSelectedCategory(selectedCat);
+  };
+
   const startTriviaQuiz = async () => {
     setLoading(true);
     setGameOver(false);
-    const quizQuestions = await fetchQuizData(totalQuestions, difficulty);
+    const quizQuestions = await fetchQuizData(totalQuestions, difficulty, selectedCategory);
     setQuestions(quizQuestions);
     setGameScore(0);
     setUserAnswers([]);
@@ -108,12 +126,15 @@ const App = () => {
               questionNr={questionNr}
               questions={questions}
               userAnswers={userAnswers}
+              category={category}
+              selectedCategory={selectedCategory}
               nextQuestion={nextQuestion}
               startTriviaQuiz={startTriviaQuiz}
               checkAnswer={checkAnswer}
               showResults={showResults}
               quizDifficulty={quizDifficulty}
               quizTotalQuestions={quizTotalQuestions}
+              quizCategory={quizCategory}
             />
           )}
         />
