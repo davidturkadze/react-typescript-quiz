@@ -10,11 +10,11 @@ import { Wrapper } from './UserAnswers.styles';
 type UserAnswersProps = {
   uAnswers: AnswerObject[] | undefined;
   gameScore: number;
-  TOTAL_QUESTIONS: number;
+  totalQuestions: number;
   startTriviaQuiz: () => void;
 };
 
-const UserAnswers: React.FC<UserAnswersProps> = ({ uAnswers, gameScore, TOTAL_QUESTIONS, startTriviaQuiz }) => {
+const UserAnswers: React.FC<UserAnswersProps> = ({ uAnswers, gameScore, totalQuestions, startTriviaQuiz }) => {
   let history = useHistory();
 
   const startNewGame = () => {
@@ -25,7 +25,7 @@ const UserAnswers: React.FC<UserAnswersProps> = ({ uAnswers, gameScore, TOTAL_QU
   return (
     <Wrapper>
       <h2>
-        Score: {gameScore} of total {TOTAL_QUESTIONS} Points
+        Score: {gameScore} of total {totalQuestions} Points
       </h2>
       {uAnswers &&
         uAnswers.map((userAnswer: AnswerObject, index) => (

@@ -8,7 +8,8 @@ import { css } from '@emotion/react';
 import { Wrapper } from '../App.styles';
 // Components
 import QuestionCard from '../components/QuestionCard/QuestionCard';
-import SelectBox from '../components/UI/Select';
+import DifficultySelectBox from '../components/UI/Select/DifficultySelect/DifficultySelect';
+import TotalQuestionsSelectBox from '../components/UI/Select/TotalQuestionsSelect/TotalQuestionsSelect';
 
 const override = css`
   display: block;
@@ -16,9 +17,9 @@ const override = css`
 `;
 
 type QuizProps = {
-  TOTAL_QUESTIONS: number;
   loading: boolean;
   difficulty: string;
+  totalQuestions: number;
   gameOver: boolean;
   gameScore: number;
   questionNr: number;
@@ -29,12 +30,13 @@ type QuizProps = {
   checkAnswer: (e: React.MouseEvent<HTMLButtonElement>) => void;
   showResults: () => void;
   quizDifficulty: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  quizTotalQuestions: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 };
 
 const Quiz: React.FC<QuizProps> = ({
-  TOTAL_QUESTIONS,
   loading,
   difficulty,
+  totalQuestions,
   gameOver,
   gameScore,
   questionNr,
@@ -45,19 +47,20 @@ const Quiz: React.FC<QuizProps> = ({
   checkAnswer,
   showResults,
   quizDifficulty,
+  quizTotalQuestions,
 }) => {
-  let difficultySelect = null;
-  if (userAnswers.length === TOTAL_QUESTIONS || gameOver) {
-    difficultySelect = <SelectBox quizDifficulty={quizDifficulty} value={difficulty} />;
-  }
   return (
     <Wrapper>
       <h1>TRIVIA QUIZ</h1>
-      {difficultySelect}
+      {userAnswers.length === totalQuestions || gameOver ? (
+        <div className="selectContainer">
+          <DifficultySelectBox quizDifficulty={quizDifficulty} value={difficulty} /> <TotalQuestionsSelectBox quizTotalQuestions={quizTotalQuestions} value={totalQuestions} />
+        </div>
+      ) : null}
 
-      {gameOver || userAnswers.length === TOTAL_QUESTIONS ? (
+      {gameOver || userAnswers.length === totalQuestions ? (
         <button className="start" onClick={startTriviaQuiz}>
-          {userAnswers.length === TOTAL_QUESTIONS ? 'Start new game' : 'Start'}
+          {userAnswers.length === totalQuestions ? 'Start new game' : 'Start'}
         </button>
       ) : null}
 
@@ -69,7 +72,7 @@ const Quiz: React.FC<QuizProps> = ({
       {!loading && !gameOver && (
         <QuestionCard
           questionNumber={questionNr + 1}
-          totalQuestions={TOTAL_QUESTIONS}
+          totalQuestions={totalQuestions}
           question={questions[questionNr].question}
           answers={questions[questionNr].answers}
           userAnswer={userAnswers ? userAnswers[questionNr] : undefined}
@@ -78,12 +81,12 @@ const Quiz: React.FC<QuizProps> = ({
       )}
 
       <ClipLoader color={'#4A90E2'} loading={loading} size={200} css={override} />
-      {!gameOver && !loading && userAnswers.length === questionNr + 1 && questionNr !== TOTAL_QUESTIONS - 1 ? (
+      {!gameOver && !loading && userAnswers.length === questionNr + 1 && questionNr !== totalQuestions - 1 ? (
         <button className="next" onClick={nextQuestion}>
           Next Question
         </button>
       ) : null}
-      {!loading && userAnswers.length === TOTAL_QUESTIONS ? (
+      {!loading && userAnswers.length === totalQuestions ? (
         <button className="result" onClick={showResults}>
           Show Results
         </button>

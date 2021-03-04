@@ -69,4 +69,8 @@ export const Wrapper = styled.div`
     padding: 0 40px;
     font-size: 20px;
   }
+  .selectContainer {
+    display: flex;
+    flex-direction: column;
+  }
 `;

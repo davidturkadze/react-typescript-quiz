@@ -19,12 +19,13 @@ export type AnswerObject = {
   correctAnswer: string;
 };
 
-const TOTAL_QUESTIONS: number = 10;
+//const TOTAL_QUESTIONS: number = 10;
 
 const App = () => {
   let history = useHistory();
 
   const [difficulty, setDifficulty] = useState<string>('easy');
+  const [totalQuestions, setTotalQuestions] = useState<number>(10);
   const [loading, setLoading] = useState(false);
   const [gameOver, setGameOver] = useState(true);
   const [gameScore, setGameScore] = useState(0);
@@ -36,11 +37,18 @@ const App = () => {
     const selectedDifficulty = e.target.value;
     setDifficulty(selectedDifficulty);
   };
+  const quizTotalQuestions = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedTotalQuestions = Number(e.target.value);
+    setUserAnswers([]);
+    setQuestionNr(0);
+    setGameOver(true);
+    setTotalQuestions(selectedTotalQuestions);
+  };
 
   const startTriviaQuiz = async () => {
     setLoading(true);
     setGameOver(false);
-    const quizQuestions = await fetchQuizData(TOTAL_QUESTIONS, difficulty);
+    const quizQuestions = await fetchQuizData(totalQuestions, difficulty);
     setQuestions(quizQuestions);
     setGameScore(0);
     setUserAnswers([]);
@@ -71,7 +79,7 @@ const App = () => {
     setLoading(true);
     // Move on to the next question if not the last question
     const nextQuestion = questionNr + 1;
-    if (nextQuestion === TOTAL_QUESTIONS) {
+    if (nextQuestion === totalQuestions) {
       setGameOver(true);
       setLoading(false);
     } else {
@@ -92,9 +100,9 @@ const App = () => {
           exact
           component={() => (
             <Quiz
-              TOTAL_QUESTIONS={TOTAL_QUESTIONS}
               loading={loading}
               difficulty={difficulty}
+              totalQuestions={totalQuestions}
               gameOver={gameOver}
               gameScore={gameScore}
               questionNr={questionNr}
@@ -105,13 +113,14 @@ const App = () => {
               checkAnswer={checkAnswer}
               showResults={showResults}
               quizDifficulty={quizDifficulty}
+              quizTotalQuestions={quizTotalQuestions}
             />
           )}
         />
-        {userAnswers.length === TOTAL_QUESTIONS && (
+        {userAnswers.length === totalQuestions && (
           <Route
             path="/answers"
-            component={() => <UserAnswers uAnswers={userAnswers} startTriviaQuiz={startTriviaQuiz} gameScore={gameScore} TOTAL_QUESTIONS={TOTAL_QUESTIONS} />}
+            component={() => <UserAnswers uAnswers={userAnswers} startTriviaQuiz={startTriviaQuiz} gameScore={gameScore} totalQuestions={totalQuestions} />}
           />
         )}
         <Redirect to="/" />
