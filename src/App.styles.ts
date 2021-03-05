@@ -62,7 +62,7 @@ export const Wrapper = styled.div`
       width: 350px;
     }
     > h2 {
-      font-size: 40px;
+      font-size: 30px;
       font-weight: 400;
       color: #000;
     }

@@ -69,13 +69,10 @@ const Quiz: React.FC<QuizProps> = ({
           <DifficultySelectBox quizDifficulty={quizDifficulty} value={difficulty} />
           <CategorySelectBox value={selectedCategory} categories={category} quizCategory={quizCategory} />
           <TotalQuestionsSelectBox quizTotalQuestions={quizTotalQuestions} value={totalQuestions} />
+          <button className="start" onClick={startTriviaQuiz}>
+            {userAnswers.length === totalQuestions ? 'Start new game' : 'Start'}
+          </button>
         </div>
-      ) : null}
-
-      {gameOver || userAnswers.length === totalQuestions ? (
-        <button className="start" onClick={startTriviaQuiz}>
-          {userAnswers.length === totalQuestions ? 'Start new game' : 'Start'}
-        </button>
       ) : null}
 
       {!gameOver && (
