@@ -26,13 +26,18 @@ export const Wrapper = styled.div`
   > p {
     color: #fff;
   }
+  .quizData {
+    color: #ccffff;
+    font-size: 1.2rem;
+    margin-top: -20px;
+  }
   .score {
-    color: #fff;
     font-size: 2rem;
     font-weight: bold;
     margin-top: 3px;
   }
-  h1 {
+  h1,
+  h2 {
     font-family: Roboto, sans-serif;
     font-weight: 700;
     font-size: 90px;
@@ -43,8 +48,32 @@ export const Wrapper = styled.div`
       font-size: 65px;
     }
   }
+  .errorContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 600px;
+    background: #ccffff;
+    border-radius: 10px;
+    padding: 40px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.25);
+    text-align: center;
+    @media (max-width: 768px) {
+      width: 350px;
+    }
+    > h2 {
+      font-size: 40px;
+      font-weight: 400;
+      color: #000;
+    }
+    > a {
+      font-size: 20px;
+      color: blue;
+    }
+  }
   .start,
-  .next {
+  .next,
+  .back {
     cursor: pointer;
     background: linear-gradient(45deg, rgba(59, 173, 227, 1) 0%, rgba(87, 111, 230, 1) 25%, rgba(152, 68, 183, 1) 51%, rgba(255, 53, 127, 1) 100%);
     border: 1px solid black;
@@ -57,6 +86,9 @@ export const Wrapper = styled.div`
   }
   .start {
     max-width: 250px;
+  }
+  .back {
+    max-width: 200px;
   }
   .result {
     cursor: pointer;

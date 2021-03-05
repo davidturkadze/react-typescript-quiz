@@ -11,6 +11,7 @@ import QuestionCard from '../components/QuestionCard/QuestionCard';
 import DifficultySelectBox from '../components/UI/Select/DifficultySelect/DifficultySelect';
 import TotalQuestionsSelectBox from '../components/UI/Select/TotalQuestionsSelect/TotalQuestionsSelect';
 import CategorySelectBox from '../components/UI/Select/CategorySelect/CategorySelect';
+import EmptyCategoryError from '../components/Error/EmptyCategoryError';
 
 const override = css`
   display: block;
@@ -18,6 +19,7 @@ const override = css`
 `;
 
 type QuizProps = {
+  error: boolean;
   loading: boolean;
   difficulty: string;
   totalQuestions: number;
@@ -28,6 +30,7 @@ type QuizProps = {
   userAnswers: AnswerObject[];
   category: categoryState[];
   selectedCategory: number;
+  selectedCategoryName: string | undefined;
   nextQuestion: () => void;
   startTriviaQuiz: () => void;
   checkAnswer: (e: React.MouseEvent<HTMLButtonElement>) => void;
@@ -38,6 +41,7 @@ type QuizProps = {
 };
 
 const Quiz: React.FC<QuizProps> = ({
+  error,
   loading,
   difficulty,
   totalQuestions,
@@ -48,6 +52,7 @@ const Quiz: React.FC<QuizProps> = ({
   userAnswers,
   category,
   selectedCategory,
+  selectedCategoryName,
   nextQuestion,
   startTriviaQuiz,
   checkAnswer,
@@ -61,8 +66,8 @@ const Quiz: React.FC<QuizProps> = ({
       <h1>TRIVIA QUIZ</h1>
       {userAnswers.length === totalQuestions || gameOver ? (
         <div className="selectContainer">
-          <DifficultySelectBox quizDifficulty={quizDifficulty} value={difficulty} />{' '}
-          <CategorySelectBox value={selectedCategory} categories={category} quizCategory={quizCategory} />{' '}
+          <DifficultySelectBox quizDifficulty={quizDifficulty} value={difficulty} />
+          <CategorySelectBox value={selectedCategory} categories={category} quizCategory={quizCategory} />
           <TotalQuestionsSelectBox quizTotalQuestions={quizTotalQuestions} value={totalQuestions} />
         </div>
       ) : null}
@@ -74,11 +79,23 @@ const Quiz: React.FC<QuizProps> = ({
       ) : null}
 
       {!gameOver && (
-        <p className="score">
-          Score: <span style={{ color: '#00ff00' }}>{gameScore}</span>
-        </p>
+        <div className="quizData">
+          <p>
+            Difficulty: <span>{difficulty.toUpperCase()}</span>
+          </p>
+          <p>
+            Category: <span>{selectedCategoryName}</span>
+          </p>
+          <p className="score">
+            Score: <span style={{ color: '#00ff00' }}>{gameScore}</span>
+          </p>
+        </div>
       )}
-      {!loading && !gameOver && (
+
+      {/* Show error component if there are no questions to the selected category */}
+      {error && <EmptyCategoryError category={selectedCategoryName} />}
+
+      {!error && !loading && !gameOver && (
         <QuestionCard
           questionNumber={questionNr + 1}
           totalQuestions={totalQuestions}

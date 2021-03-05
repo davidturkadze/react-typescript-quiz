@@ -9,6 +9,7 @@ import { QuestionsState } from './API';
 import Quiz from './containers/Quiz';
 // Components
 import UserAnswers from './components/UserAnswers/UserAnswers';
+
 // Styles
 import { GlobalStyle } from './App.styles';
 
@@ -24,9 +25,11 @@ export type AnswerObject = {
 const App = () => {
   let history = useHistory();
 
+  const [error, setError] = useState(false);
   const [difficulty, setDifficulty] = useState<string>('easy');
   const [category, setCategory] = useState<categoryState[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<number>(9);
+  const [selectedCategoryName, setSelectedCategoryName] = useState<string | undefined>('General Knowledge');
   const [totalQuestions, setTotalQuestions] = useState<number>(10);
   const [loading, setLoading] = useState(false);
   const [gameOver, setGameOver] = useState(true);
@@ -61,13 +64,20 @@ const App = () => {
   const quizCategory = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedCat = Number(e.target.value);
     setSelectedCategory(selectedCat);
+    const categoryName = category.find((name) => name.id === selectedCat);
+    const catName = categoryName?.name.toString();
+    setSelectedCategoryName(catName);
   };
 
   const startTriviaQuiz = async () => {
     setLoading(true);
     setGameOver(false);
     const quizQuestions = await fetchQuizData(totalQuestions, difficulty, selectedCategory);
+    if (quizQuestions.length === 0) {
+      setError(true);
+    }
     setQuestions(quizQuestions);
+
     setGameScore(0);
     setUserAnswers([]);
     setQuestionNr(0);
@@ -118,6 +128,7 @@ const App = () => {
           exact
           component={() => (
             <Quiz
+              error={error}
               loading={loading}
               difficulty={difficulty}
               totalQuestions={totalQuestions}
@@ -128,6 +139,7 @@ const App = () => {
               userAnswers={userAnswers}
               category={category}
               selectedCategory={selectedCategory}
+              selectedCategoryName={selectedCategoryName}
               nextQuestion={nextQuestion}
               startTriviaQuiz={startTriviaQuiz}
               checkAnswer={checkAnswer}
