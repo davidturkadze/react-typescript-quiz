@@ -73,7 +73,7 @@ const Quiz: React.FC<QuizProps> = ({
   return (
     <Wrapper>
       <h1>TRIVIA QUIZ</h1>
-      {(!loading && userAnswers.length === totalQuestions) || gameOver ? (
+      {userAnswers.length === totalQuestions || gameOver ? (
         <div className="selectContainer">
           <SelectBox selectType="difficulty" options={QUIZ_DIFFICULTY} value={difficulty} onSelectChangeHandler={quizDifficulty} />
           <SelectBox selectType="category" options={category} value={selectedCategory} onSelectChangeHandler={quizCategory} />
@@ -85,14 +85,14 @@ const Quiz: React.FC<QuizProps> = ({
         </div>
       ) : null}
 
-      {!loading && !gameOver && (
+      {!gameOver && (
         <p className="score">
           Score: <span style={{ color: '#00ff00' }}>{gameScore}</span>
         </p>
       )}
 
       <div style={{ height: '90px' }}>
-        {!loading && !gameOver && !loading && userAnswers.length === questionNr + 1 && questionNr !== totalQuestions - 1 ? (
+        {!gameOver && !loading && userAnswers.length === questionNr + 1 && questionNr !== totalQuestions - 1 ? (
           <button className="next" onClick={nextQuestion}>
             Next Question
           </button>
@@ -105,9 +105,9 @@ const Quiz: React.FC<QuizProps> = ({
       </div>
 
       {/* Show error component if there are no questions to the selected category */}
-      {!loading && error && <EmptyCategoryError category={selectedCategoryName} difficulty={difficulty} />}
+      {error && <EmptyCategoryError category={selectedCategoryName} difficulty={difficulty} />}
 
-      {!loading && !error && !gameOver && (
+      {!error && !loading && !gameOver && (
         <QuestionCard
           questionNumber={questionNr + 1}
           totalQuestions={totalQuestions}
