@@ -48,8 +48,8 @@ export const Wrapper = styled.div`
   .score {
     font-size: 2rem;
     font-weight: bold;
-    margin-top: 3px;
     margin-bottom: -4px;
+    margin-top: -4px;
   }
   h1,
   h2 {

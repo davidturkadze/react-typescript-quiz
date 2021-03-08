@@ -86,11 +86,9 @@ const Quiz: React.FC<QuizProps> = ({
       ) : null}
 
       {!gameOver && (
-        <div className="quizData">
-          <p className="score">
-            Score: <span style={{ color: '#00ff00' }}>{gameScore}</span>
-          </p>
-        </div>
+        <p className="score">
+          Score: <span style={{ color: '#00ff00' }}>{gameScore}</span>
+        </p>
       )}
 
       <div style={{ height: '90px' }}>
