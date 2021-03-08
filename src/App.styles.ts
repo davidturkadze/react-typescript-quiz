@@ -8,8 +8,8 @@ export const GlobalStyle = createGlobalStyle`
   }
   body {
     background-image: url(${BGImage});
-    background-size: cover;
-    background-repeat:no-repeat;
+    background-size: 100% auto;
+    background-repeat:repeat;
     margin: 0;
     display: flex;
     justify-content: center;
