@@ -20,8 +20,6 @@ export type AnswerObject = {
   correctAnswer: string;
 };
 
-//const TOTAL_QUESTIONS: number = 10;
-
 const App = () => {
   let history = useHistory();
 

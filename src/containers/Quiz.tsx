@@ -8,9 +8,7 @@ import { css } from '@emotion/react';
 import { Wrapper } from '../App.styles';
 // Components
 import QuestionCard from '../components/QuestionCard/QuestionCard';
-import DifficultySelectBox from '../components/UI/Select/DifficultySelect/DifficultySelect';
-import TotalQuestionsSelectBox from '../components/UI/Select/TotalQuestionsSelect/TotalQuestionsSelect';
-import CategorySelectBox from '../components/UI/Select/CategorySelect/CategorySelect';
+import SelectBox from '../components/UI/Input/Select/SelectBox';
 import EmptyCategoryError from '../components/Error/EmptyCategoryError';
 
 const override = css`
@@ -61,14 +59,26 @@ const Quiz: React.FC<QuizProps> = ({
   quizTotalQuestions,
   quizCategory,
 }) => {
+  const QUIZ_DIFFICULTY = [
+    { value: 'easy', label: 'Easy' },
+    { value: 'medium', label: 'Medium' },
+    { value: 'hard', label: 'Hard' },
+  ];
+  const TOTAL_QUESTIONS = [
+    { value: 10, label: '10' },
+    { value: 20, label: '20' },
+    { value: 30, label: '30' },
+  ];
+
   return (
     <Wrapper>
       <h1>TRIVIA QUIZ</h1>
       {userAnswers.length === totalQuestions || gameOver ? (
         <div className="selectContainer">
-          <DifficultySelectBox quizDifficulty={quizDifficulty} value={difficulty} />
-          <CategorySelectBox value={selectedCategory} categories={category} quizCategory={quizCategory} />
-          <TotalQuestionsSelectBox quizTotalQuestions={quizTotalQuestions} value={totalQuestions} />
+          <SelectBox selectType="difficulty" options={QUIZ_DIFFICULTY} value={difficulty} onSelectChangeHandler={quizDifficulty} />
+          <SelectBox selectType="category" options={category} value={selectedCategory} onSelectChangeHandler={quizCategory} />
+          <SelectBox selectType="totalQuestions" options={TOTAL_QUESTIONS} value={totalQuestions} onSelectChangeHandler={quizTotalQuestions} />
+
           <button className="start" onClick={startTriviaQuiz}>
             {userAnswers.length === totalQuestions ? 'Start new game' : 'Start'}
           </button>
@@ -90,7 +100,7 @@ const Quiz: React.FC<QuizProps> = ({
       )}
 
       {/* Show error component if there are no questions to the selected category */}
-      {error && <EmptyCategoryError category={selectedCategoryName} />}
+      {error && <EmptyCategoryError category={selectedCategoryName} difficulty={difficulty} />}
 
       {!error && !loading && !gameOver && (
         <QuestionCard
