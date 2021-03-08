@@ -93,6 +93,19 @@ const Quiz: React.FC<QuizProps> = ({
         </div>
       )}
 
+      <div style={{ height: '90px' }}>
+        {!gameOver && !loading && userAnswers.length === questionNr + 1 && questionNr !== totalQuestions - 1 ? (
+          <button className="next" onClick={nextQuestion}>
+            Next Question
+          </button>
+        ) : null}
+        {!loading && userAnswers.length === totalQuestions ? (
+          <button className="result" onClick={showResults}>
+            Show Results
+          </button>
+        ) : null}
+      </div>
+
       {/* Show error component if there are no questions to the selected category */}
       {error && <EmptyCategoryError category={selectedCategoryName} difficulty={difficulty} />}
 
@@ -108,16 +121,6 @@ const Quiz: React.FC<QuizProps> = ({
       )}
 
       <ClipLoader color={'#4A90E2'} loading={loading} size={200} css={override} />
-      {!gameOver && !loading && userAnswers.length === questionNr + 1 && questionNr !== totalQuestions - 1 ? (
-        <button className="next" onClick={nextQuestion}>
-          Next Question
-        </button>
-      ) : null}
-      {!loading && userAnswers.length === totalQuestions ? (
-        <button className="result" onClick={showResults}>
-          Show Results
-        </button>
-      ) : null}
     </Wrapper>
   );
 };

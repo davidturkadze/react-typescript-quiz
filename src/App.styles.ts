@@ -7,12 +7,25 @@ export const GlobalStyle = createGlobalStyle`
     height: 100%;
   }
   body {
-    background-image: url(${BGImage});
-    background-size: cover;
-    background-repeat:repeat;
+    
     margin: 0;
     display: flex;
     justify-content: center;
+  }
+  body:before {
+    content: "";
+    display: block;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -10;
+    background:url(${BGImage}) no-repeat center center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
   }
   * {
     font-family: 'Roboto', sans-serif;
@@ -36,6 +49,7 @@ export const Wrapper = styled.div`
     font-size: 2rem;
     font-weight: bold;
     margin-top: 3px;
+    margin-bottom: -4px;
   }
   h1,
   h2 {
