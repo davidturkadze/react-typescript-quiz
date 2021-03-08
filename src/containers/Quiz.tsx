@@ -87,12 +87,6 @@ const Quiz: React.FC<QuizProps> = ({
 
       {!gameOver && (
         <div className="quizData">
-          <p>
-            Difficulty: <span>{difficulty.toUpperCase()}</span>
-          </p>
-          <p>
-            Category: <span>{selectedCategoryName}</span>
-          </p>
           <p className="score">
             Score: <span style={{ color: '#00ff00' }}>{gameScore}</span>
           </p>
