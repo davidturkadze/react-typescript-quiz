@@ -40,13 +40,8 @@ export const Wrapper = styled.div`
   > p {
     color: #fff;
   }
-  .quizData {
-    color: #ccffff;
-    font-size: 1.2rem;
-    margin-top: -20px;
-  }
   .score {
-    font-size: 2rem;
+    font-size: 1.7rem;
     font-weight: bold;
     margin-bottom: -4px;
     margin-top: -4px;
@@ -60,7 +55,7 @@ export const Wrapper = styled.div`
     margin: 20px;
     color: #fff;
     @media (max-width: 768px) {
-      font-size: 65px;
+      font-size: 45px;
     }
   }
   .errorContainer {
@@ -77,7 +72,7 @@ export const Wrapper = styled.div`
       width: 350px;
     }
     > h2 {
-      font-size: 30px;
+      font-size: 1.7rem;
       font-weight: 400;
       color: #000;
     }

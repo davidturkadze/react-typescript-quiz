@@ -13,7 +13,7 @@ export const Wrapper = styled.div`
   @media (max-width: 768px) {
     width: 350px;
     p {
-      font-size: 1.2rem;
+      font-size: 1rem;
     }
   }
 `;
@@ -49,7 +49,7 @@ export const ButtonWrapper = styled.div<ButtonWrapperProps>`
     text-shadow: 0px 1px 0px rgba(0, 0, 0, 0.25);
     @media (max-width: 768px) {
       padding: 10px 0;
-      font-size: 1rem;
+      font-size: 0.9rem;
     }
   }
 `;
